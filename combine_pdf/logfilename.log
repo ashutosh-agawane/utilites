@@ -1,0 +1,23 @@
+INFO:root:Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110589_M05300009415_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110610_M01300016717_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+INFO:root:================================
+INFO:root:Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+INFO:root:================================
+INFO:root:Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+INFO:root:================================
+INFO:root:Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+INFO:root:Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+2021-03-31 11:35:16 INFO start_gui.py:130: ================================
+2021-03-31 11:35:16 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+2021-03-31 11:35:16 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+2021-03-31 11:36:30 INFO start_gui.py:130: ================================
+2021-03-31 11:36:30 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+2021-03-31 11:36:30 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+2021-03-31 11:36:31 INFO start_gui.py:130: ================================
+2021-03-31 11:36:31 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
+2021-03-31 11:36:31 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
+2021-04-01 10:37:53 ERROR start_gui.py:104: error : name 'read_file' is not defined

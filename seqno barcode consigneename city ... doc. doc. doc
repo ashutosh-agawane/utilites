@@ -1,0 +1,43 @@
+   seqno   barcode            consigneename               city  ... documenttype couriername dispatchdate         awbno
+0    578  R1257339    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021     240220211
+1    579  R1257340    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021     240220212
+2    580  R1257341      DEVINDER KUMAR SONI          PANCHKULA  ...       Policy     Vikrant  24-Feb-2021     240220213
+3    581  R1257342    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021     240220214
+4    582  R1257343      CHANDRA KANTH REDDY          HYDERABAD  ...       Policy     Vikrant  24-Feb-2021     240220215
+5    583  R1257344      SHEHNAZ GAJIPURWALA         PANCHMAHAL  ...       Policy     Vikrant  24-Feb-2021     240220216
+6    584  R1257345             BALWAN SINGH              ALWAR  ...       Policy     Vikrant  24-Feb-2021     240220217
+7    585  R1257346         MURALI INAPANURI            KHAMMAM  ...       Policy     Vikrant  24-Feb-2021     240220218
+8    586  R1257347    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021     240220219
+9    588  R1257349   H VENU GOPALA KRISHNAN         RANGAREDDY  ...       Policy     Vikrant  24-Feb-2021     240220220
+10   589  R1257350            SANDIP  KUMAR        NAVI MUMBAI  ...       Policy     Vikrant  24-Feb-2021     240220221
+11   590  R1257351           KISHLAY SHARAD          BANGALORE  ...       Policy     Vikrant  24-Feb-2021     240220222
+12   591  R1257352         ASHUTOSH SHRINET  GAUTAM BUDH NAGAR  ...       Policy     Vikrant  24-Feb-2021     240220223
+13   592  R1257353  MS AKASH KRISHNA SAXENA        SOUTH DELHI  ...       Policy     Vikrant  24-Feb-2021     240220224
+14   629  R1257339    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021         POST1
+15   630  R1257340    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021         POST2
+16   631  R1257341      DEVINDER KUMAR SONI          PANCHKULA  ...       Policy     Vikrant  24-Feb-2021         POST3
+17   632  R1257342    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021         POST4
+18   633  R1257343      CHANDRA KANTH REDDY          HYDERABAD  ...       Policy     Vikrant  24-Feb-2021         POST5
+19   634  R1257344      SHEHNAZ GAJIPURWALA         PANCHMAHAL  ...       Policy     Vikrant  24-Feb-2021         POST6
+20   635  R1257345             BALWAN SINGH              ALWAR  ...       Policy     Vikrant  24-Feb-2021         POST7
+21   636  R1257346         MURALI INAPANURI            KHAMMAM  ...       Policy     Vikrant  24-Feb-2021        POST17
+22   637  R1257347    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021         POST8
+23   638  R1257349   H VENU GOPALA KRISHNAN         RANGAREDDY  ...       Policy     Vikrant  24-Feb-2021         POST9
+24   639  R1257350            SANDIP  KUMAR        NAVI MUMBAI  ...       Policy     Vikrant  24-Feb-2021        POST10
+25   640  R1257351           KISHLAY SHARAD          BANGALORE  ...       Policy     Vikrant  24-Feb-2021        POST11
+26   641  R1257352         ASHUTOSH SHRINET  GAUTAM BUDH NAGAR  ...       Policy     Vikrant  24-Feb-2021        POST12
+27   642  R1257353  MS AKASH KRISHNA SAXENA        SOUTH DELHI  ...       Policy     Vikrant  24-Feb-2021  Speed Post 1
+28   660  R1257339    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021        POST_1
+29   661  R1257340    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021        POST_2
+30   662  R1257341      DEVINDER KUMAR SONI          PANCHKULA  ...       Policy     Vikrant  24-Feb-2021        POST_3
+31   663  R1257342    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021        POST_4
+32   664  R1257343      CHANDRA KANTH REDDY          HYDERABAD  ...       Policy     Vikrant  24-Feb-2021        POST_5
+33   665  R1257344      SHEHNAZ GAJIPURWALA         PANCHMAHAL  ...       Policy     Vikrant  24-Feb-2021        POST_6
+34   666  R1257345             BALWAN SINGH              ALWAR  ...       Policy     Vikrant  24-Feb-2021        POST_7
+35   667  R1257346         MURALI INAPANURI            KHAMMAM  ...       Policy     Vikrant  24-Feb-2021        POST_8
+36   668  R1257347    VISHAL SHANKAR DHOTRE               PUNE  ...       Policy     Vikrant  24-Feb-2021        POST_9
+37   669  R1257349   H VENU GOPALA KRISHNAN         RANGAREDDY  ...       Policy     Vikrant  24-Feb-2021       POST_10
+38   670  R1257350            SANDIP  KUMAR        NAVI MUMBAI  ...       Policy     Vikrant  24-Feb-2021       POST_11
+39   671  R1257351           KISHLAY SHARAD          BANGALORE  ...       Policy     Vikrant  24-Feb-2021       POST_12
+40   672  R1257352         ASHUTOSH SHRINET  GAUTAM BUDH NAGAR  ...       Policy     Vikrant  24-Feb-2021       POST_13
+41   673  R1257353  MS AKASH KRISHNA SAXENA        SOUTH DELHI  ...       Policy     Vikrant  24-Feb-2021  Speed Post_1
