@@ -1,4 +1,6 @@
+from pymongo import MongoClient
 from logging import error
+from numpy.core.arrayprint import printoptions
 import requests
 import time
 from selenium import webdriver
@@ -13,16 +15,16 @@ import cv2
 import numpy as np
 import pytesseract
 import cv2
-import numpy as np
+import pandas as pd
 import imutils
 import pytesseract
-
+from bs4 import BeautifulSoup
 from captcha_solver import CaptchaSolver
 from operator import itemgetter
 import argparse
 import cv2
 import os
-
+import random
 from easyocr import Reader
 import easyocr
 import cv2
@@ -31,26 +33,34 @@ import numpy as np
 import re
 from bs4 import BeautifulSoup as bs
 import urllib.request
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
+timepout = 10
+client = MongoClient()
+db = client["vikrant"]
+
 
 def drivers():
-    global driver
+    global driver, main
     # driver = webdriver.Chrome('./chromedriver')
 
     # driver.get(
     # "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx")
 
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     # options.headless = True
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     driver = webdriver.Chrome(
         options=options, executable_path=r'./chromedriver')
 
     main = driver.get(
-        "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx")
+        "https://www.indiapost.gov.in/_layouts/15/DOP.Portal.Tracking/TrackConsignment.aspx")
 
 
 def search_awbno():
@@ -88,9 +98,21 @@ def solving_captcha():
 
                 im1 = Image.open('cap.jpg')
                 im1.save('cap.png')
+                image = cv2.imread('cap.png')
+
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                # gray = cv2.bitwise_not(gray)
+                ret, thresh = cv2.threshold(gray, 150, 255, 1)
+                # Get countours
+                contours, h = cv2.findContours(thresh, 1, 2)
+                # Draw
+                cv2.drawContours(image, contours, -1, (0, 0, 0), 2)
+                # cv2.imshow('Contours', image)
+                # cv2.waitKey(0)
+                cv2.imwrite("image1.jpg", image)
                 reader = Reader(['en'], gpu=False)
 
-                res = reader.readtext("cap.png", detail=0, paragraph=True)
+                res = reader.readtext("image1.jpg", detail=0, paragraph=True)
                 print(res)
                 add_text = driver.find_element_by_xpath(
                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_txtCaptcha"]')
@@ -107,12 +129,130 @@ def solving_captcha():
                             submit = driver.find_element_by_xpath(
                                 '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
                             print(add)
+                            # WebDriverWait(driver, 20).until(
+                            #     EC.url_changes(main))
+                            # time.sleep(20)
+                            sleep_time = [40, 50, 60, 70, 100, 105]
+                            s = random.choice(sleep_time)
+                            try:
+                                element_present = EC.presence_of_element_located(
+                                    (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER'))
+                                WebDriverWait(driver, s).until(
+                                    element_present)
+                                print(s)
+                            except TimeoutException:
+                                print("Timed out waiting for page to load")
+                            loading_page = driver.page_source
+                            # new_url = driver.current_url
+                            # print(new_url)
+                            df = pd.read_html(loading_page)[1]
+                            # df.set_index(i, inplace=True)
+                            print(df)
+                            # js = df.to_json()
+                            # print(js)
+                            # insert = db.data.insert(
+                            #     str(js), check_keys=False)
+
+                            # insert = db.data.insert(
+                            #     db, check_keys=False)
+
+                            # loading_page = driver.page_source
+                            # # print(loading_page)
+                            # soup4 = BeautifulSoup(loading_page, 'html.parser')
+                            # span_awbno = soup4.find(
+                            #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER")
+                            # span_status = soup4.find(
+                            #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleCurrentStatusOER")
+                            # print(span_awbno.text)
+                            # # print(span_status.text)
+                            # table = soup4.find("table", {
+                            #                    "id": "ctl00_PlaceHolderMain_ucNewLegacyControl_gvTrckMailArticleEvntOER"})
+                            # # print(table)
+                            # for row in soup4.find("tr", {"align": "center"}):
+                            #     print
+                            # li = []
+                            # for row in BeautifulSoup(str(table), "lxml")("tr"):
+                            # print(row.text)
+                            # th = [cell.text for cell in row("th")]
+                            # td = [cell.text for cell in row("td")]
+                            # li.append(th, td)
+                            # print(li)
+                            # for th, td in zip(row("th"), row("td")):
+
+                            #     print(th.text)
+                            #     print(td.text)
+
+                            # table_data = [[cell.text for cell in zip(row("th"), row("td"))]
+                            #               for row in BeautifulSoup(str(table), "lxml")("tr")]
+                            # print(table_data)
+                            # awbno = driver.find_element_by_xpath(
+                            #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+                            # print(awbno)
+
                         elif j in "-":
                             sub = int(get_num[0]) - int(get_num[1])
-                            add_text.send_keys(add)
+                            add_text.send_keys(sub)
                             submit = driver.find_element_by_xpath(
                                 '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+                            # WebDriverWait(driver, 20).until(
+                            # EC.url_changes(main))
                             print(sub)
+                            sleep_time = [40, 50, 60, 70, 100, 105]
+                            s = random.choice(sleep_time)
+                            try:
+                                element_present = EC.presence_of_element_located(
+                                    (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER'))
+                                WebDriverWait(driver, s).until(
+                                    element_present)
+                                print(s)
+                            except TimeoutException:
+                                print("Timed out waiting for page to load")
+                            loading_page = driver.page_source
+                            # new_url = driver.current_url
+                            # print(new_url)
+                            df = pd.read_html(loading_page)[1]
+                            print(df)
+                            # js = df.to_json()
+                            # print(js)
+                            # insert = db.data.insert(
+                            #     str(js), check_keys=False)
+
+                            # loading_page = driver.page_source
+                            # # print(loading_page)
+                            # loading_page = driver.page_source
+                            # # print(loading_page)
+
+                            # soup4 = BeautifulSoup(loading_page, 'html.parser')
+                            # span_awbno = soup4.find(
+                            #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER")
+                            # span_status = soup4.find(
+                            #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleCurrentStatusOER")
+                            # print(span_awbno.text)
+                            # # print(span_status.text)
+                            # table = soup4.find("table", {
+                            #                    "id": "ctl00_PlaceHolderMain_ucNewLegacyControl_gvTrckMailArticleEvntOER"})
+                            # # print(table)
+                            # li = []
+                            # for row in BeautifulSoup(str(table), "lxml")("tr"):
+                            #     # print(row.text)
+                            #     th = [cell.text for cell in row("th")]
+                            #     td = [cell.text for cell in row("td")]
+                            #     li.append(th, td)
+                            #     # for th, td in zip(row("th"), row("td")):
+                            #     print(li)
+
+                            #     print(th.text)
+                            #     print(td.text)
+
+                            # table_data = [[cell.text for cell in zip(row("th"), row("td"))]
+                            #               for row in BeautifulSoup(str(table), "lxml")("tr")]
+                            # print(table_data)
+                            # new_url = driver.current_url
+                            # print(new_url)
+                            # time.sleep(20)
+                            # awbno = driver.find_element_by_xpath(
+                            #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+                            # print(awbno)
 
     elif lable == "Enter characters as displayed in image":
         print("charaters")
@@ -126,9 +266,21 @@ def solving_captcha():
 
                 im1 = Image.open('cap.jpg')
                 im1.save('cap.png')
+                image = cv2.imread('cap.png')
+
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                # gray = cv2.bitwise_not(gray)
+                ret, thresh = cv2.threshold(gray, 150, 255, 1)
+                # Get countours
+                contours, h = cv2.findContours(thresh, 1, 2)
+                # Draw
+                cv2.drawContours(image, contours, -1, (0, 0, 0), 2)
+                # cv2.imshow('Contours', image)
+                # cv2.waitKey(0)
+                cv2.imwrite("image1.jpg", image)
                 reader = Reader(['en'], gpu=False)
 
-                res = reader.readtext("cap.png", detail=0, paragraph=True)
+                res = reader.readtext("image1.jpg", detail=0, paragraph=True)
                 print(res)
                 add_text = driver.find_element_by_xpath(
                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_txtCaptcha"]')
@@ -138,10 +290,175 @@ def solving_captcha():
                     add_text.send_keys(remve_space)
                     submit = driver.find_element_by_xpath(
                         '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+                    # WebDriverWait(driver, 20).until(
+                    # EC.url_changes(main))
+                    sleep_time = [40, 50, 60, 70, 100, 105]
+
+                    s = random.choice(sleep_time)
+                    try:
+                        element_present = EC.presence_of_element_located(
+                            (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER'))
+                        WebDriverWait(driver, s).until(
+                            element_present)
+                        print(s)
+                    except TimeoutException:
+                        print("Timed out waiting for page to load")
+                    loading_page = driver.page_source
+                    # new_url = driver.current_url
+                    # print(new_url)
+                    df = pd.read_html(loading_page)[1]
+                    print(df)
+                    # js = df.to_json()
+                    # print(js)
+                    # insert = db.data.insert(str(js), check_keys=False)
+
+                    # df.to_excel("")
+                    # # time.sleep(20)
+                    # loading_page = driver.page_source
+                    # # print(loading_page)
+
+                    # soup4 = BeautifulSoup(loading_page, 'html.parser')
+                    # span_awbno = soup4.find(
+                    #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER")
+                    # span_status = soup4.find(
+                    #     "span", id="ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleCurrentStatusOER")
+                    # print(span_awbno.text)
+                    # # print(span_status.text)
+                    # table = soup4.find("table", {
+                    #                    "id": "ctl00_PlaceHolderMain_ucNewLegacyControl_gvTrckMailArticleEvntOER"})
+                    # # table_data = [[cell.text for cell in zip(row("th"), row("td"))]
+                    # #               for row in BeautifulSoup(str(table), "lxml")("tr")]
+                    # # print(table_data)
+                    # li = []
+                    # for row in BeautifulSoup(str(table), "lxml")("tr"):
+                    #     # print(row.text)
+                    #     th = [cell.text for cell in row("th")]
+                    #     td = [cell.text for cell in row("td")]
+                    #     li.append(th, td)
+                    #     print(li)
+                    # for th, td in zip(row("th"), row("td")):
+
+                    #     print(th.text)
+                    #     print(td.text)
+
+                    # WebDriverWait(driver, 20).until(
+                    #     EC.url_changes(main))
+                    # new_url = driver.current_url
+                    # print(new_url)
+
+                    # time.sleep(15)
+                    # awbno = driver.find_element_by_xpath(
+                    # "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+                    # print(awbno)
+                    # element_present = EC.presence_of_element_located(
+                    #     (By.ID, 'main'))
+                    # WebDriverWait(driver, 30).until(element_present)
+                    # awbno = driver.find_element_by_xpath(
+                    #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
 
     else:
         print("it is asking for index number")
         driver.close()
+
+        # d = driver.find_elements_by_tag_name("img")
+        # for i in d:
+        #     src = i.get_attribute("src")
+        #     if src.endswith("="):
+        #         print(src)
+        #         urllib.request.urlretrieve(src, "cap.jpg")
+
+        #         im1 = Image.open('cap.jpg')
+        #         im1.save('cap.png')
+        #         image = cv2.imread('cap.png')
+        #         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        #         # gray = cv2.bitwise_not(gray)
+        #         ret, thresh = cv2.threshold(gray, 150, 255, 1)
+        #         # Get countours
+        #         contours, h = cv2.findContours(thresh, 1, 2)
+        #         # Draw
+        #         cv2.drawContours(image, contours, -1, (0, 0, 0), 2)
+        #         # cv2.imshow('Contours', image)
+        #         # cv2.waitKey(0)
+        #         cv2.imwrite("image1.jpg", image)
+        #         reader = Reader(['en'], gpu=False)
+
+        #         res = reader.readtext("image1.jpg", detail=0, paragraph=True)
+        #         print(res)
+        #         add_text = driver.find_element_by_xpath(
+        #             '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_txtCaptcha"]')
+        #         for i in res:
+        #             remve_space = i.replace(" ", "")
+        #             # print(remve_space[0])
+        #             # print(remve_space[1])
+        #             # print(remve_space[2])
+        #             # print(remve_space[3])
+        #             # print(remve_space[4])
+        #             if "First" in lable:
+        #                 first_number = remve_space[0]
+        #                 add_text.send_keys(first_number)
+        #                 driver.find_element_by_xpath(
+        #                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+        #                 WebDriverWait(driver, 20).until(
+        #                     EC.url_changes(main))
+        #                 # awbno = driver.find_element_by_xpath(
+        #                 # "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+        #                 # print(awbno)
+        #                 new_url = driver.current_url
+        #                 print(new_url)
+
+        #             elif "Second" in lable:
+        #                 second_number = remve_space[1]
+        #                 add_text.send_keys(second_number)
+        #                 driver.find_element_by_xpath(
+        #                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+        #                 WebDriverWait(driver, 20).until(
+        #                     EC.url_changes(main))
+        #                 # awbno = driver.find_element_by_xpath(
+        #                 # "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+        #                 # print(awbno)
+        #                 new_url = driver.current_url
+        #                 print(new_url)
+
+        #             elif "Third" in lable:
+        #                 third_number = remve_space[2]
+        #                 add_text.send_keys(third_number)
+        #                 driver.find_element_by_xpath(
+        #                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+        #                 WebDriverWait(driver, 20).until(
+        #                     EC.url_changes(main))
+        #                 # awbno = driver.find_element_by_xpath(
+        #                 #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+        #                 # print(awbno)
+        #                 new_url = driver.current_url
+        #                 print(new_url)
+
+        #             elif "Fourth" in lable:
+        #                 fourth_number = remve_space[3]
+        #                 add_text.send_keys(fourth_number)
+        #                 driver.find_element_by_xpath(
+        #                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+        #                 WebDriverWait(driver, 20).until(
+        #                     EC.url_changes(main))
+        #                 # awbno = driver.find_element_by_xpath(
+        #                 #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+        #                 # print(awbno)
+        #                 new_url = driver.current_url
+        #                 print(new_url)
+
+        #             elif "Fifth" in lable:
+        #                 fifth_number = remve_space[4]
+        #                 add_text.send_keys(fifth_number)
+        #                 driver.find_element_by_xpath(
+        #                     '//*[@id="ctl00_PlaceHolderMain_ucNewLegacyControl_btnSearch"]').click()
+        #                 WebDriverWait(driver, 20).until(
+        #                     EC.url_changes(main))
+        #                 # awbno = driver.find_element_by_xpath(
+        #                 #     "/html/body/form/div[4]/div/div/div[5]/div/div[1]/div[3]/div/div[2]/div[3]/div[2]/div[2]/div[1]/strong/span").text
+        #                 # print(awbno)
+        #                 new_url = driver.current_url
+        #                 print(new_url)
+
+        # driver.close()
 
 
 def main():
