@@ -21,3 +21,34 @@ INFO:root:Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Si
 2021-03-31 11:36:31 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110277_M04300005940_10122020_Signed.pdf
 2021-03-31 11:36:31 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf\110567_M01300016708_10122020_Signed.pdf
 2021-04-01 10:37:53 ERROR start_gui.py:104: error : name 'read_file' is not defined
+2021-05-07 17:56:35 ERROR start_gui.py:69: error : 
+2021-05-07 18:04:01 ERROR start_gui.py:104: error : 'Month'
+2021-05-07 18:04:12 ERROR start_gui.py:104: error : 'Month'
+2021-05-07 18:06:52 ERROR start_gui.py:105: error : 'Month'
+2021-05-07 18:07:06 INFO start_gui.py:131: ================================
+2021-05-07 18:07:06 ERROR start_gui.py:166: error : name 'incentive_final' is not defined
+2021-05-07 18:10:01 INFO start_gui.py:131: ================================
+2021-05-07 18:11:04 ERROR start_gui.py:105: error : 'Month'
+2021-05-07 18:15:23 ERROR start_gui.py:105: error : 'Month'
+2021-05-07 18:15:46 INFO start_gui.py:131: ================================
+2021-05-07 18:20:22 INFO start_gui.py:131: ================================
+2021-05-07 18:20:22 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101597_M02300004591_04052021_Signed.pdf
+2021-05-07 18:20:32 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101735_M02300004588_04052021_Signed.pdf
+2021-05-07 18:20:42 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101857_M02300004589_04052021_Signed.pdf
+2021-05-07 18:20:53 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102032_M02300004578_04052021_Signed.pdf
+2021-05-07 18:21:03 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102095_M02300004576_04052021_Signed.pdf
+2021-05-07 18:21:13 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102171_M02300004613_06052021_Signed.pdf
+2021-05-07 18:21:23 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102745_M02300004562_03052021_Signed.pdf
+2021-05-07 18:21:33 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\104096_M02300004603_05052021_Signed.pdf
+2021-05-07 18:21:44 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\105048_M05300010294_05052021_Signed.pdf
+2021-05-07 18:26:55 INFO start_gui.py:131: ================================
+2021-05-07 18:26:55 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101597_M02300004591_04052021_Signed.pdf
+2021-05-07 18:27:05 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101735_M02300004588_04052021_Signed.pdf
+2021-05-07 18:27:16 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\101857_M02300004589_04052021_Signed.pdf
+2021-05-07 18:27:26 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102032_M02300004578_04052021_Signed.pdf
+2021-05-07 18:27:36 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102095_M02300004576_04052021_Signed.pdf
+2021-05-07 18:27:47 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102171_M02300004613_06052021_Signed.pdf
+2021-05-07 18:27:57 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\102745_M02300004562_03052021_Signed.pdf
+2021-05-07 18:28:07 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\104096_M02300004603_05052021_Signed.pdf
+2021-05-07 18:28:17 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\105048_M05300010294_05052021_Signed.pdf
+2021-05-07 18:28:27 INFO start_gui.py:158: Completed : E:/python/data/combine_pdf/7 may\106398_M05300010270_04052021_Signed.pdf

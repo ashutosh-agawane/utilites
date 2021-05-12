@@ -59,7 +59,7 @@ def read_excel():
             title="Select a File", filetype=(("Excel", "*.xlsx"), ("Excel", "*.xls")))
         read_file = pd.read_excel(filename)
         # doc_name = read_file["Document No"].tolist()
-        cust_id = read_file["Customer ID"].tolist()
+        cust_id = read_file["Document No"].tolist()
         list_string = map(str, cust_id)
         final_cust_id = list(list_string)
         print(final_cust_id)
@@ -78,11 +78,11 @@ def read_excel():
 def credit_note_and_debit_note():
     global read_file, doc_name, cn_dn_final
     try:
-        cust_id = read_file["Customer ID"].tolist()
+        cust_id = read_file["Document No"].tolist()
         # mon = read_file["Month"].tolist()
         list_string = map(str, cust_id)
         cn_dn_final = list(list_string)
-        print(cn_dn_final)
+        print(len(cn_dn_final))
     except Exception as e:
         print(e)
         logging.error("error : " + str(e))
@@ -98,7 +98,8 @@ def Incentive_letter():
         list_string = map(str, cust_id)
         incentive_final = list(list_string)
         # final = str(final_cust_id) + "_"+str(mon)
-        print(incentive_final)
+        print(len(incentive_final))
+
     except Exception as e:
         print(e)
         logging.error("error : " + str(e))
@@ -155,7 +156,7 @@ def print_btn_func():
                     if c in pdf_file:
                         print("printing file : " + pdf_file)
                         logging.info("Completed : {}".format(pdf_file))
-                        os.startfile(pdf_file, "print")
+                        os.startfile(pdf_file)
 
                         # win32api.ShellExecute(0, "print", pdf, None,  ".",  0)
                         time.sleep(10)
