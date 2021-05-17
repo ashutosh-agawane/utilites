@@ -1,0 +1,29 @@
+Questions
+ 1 - file sharer or microsoft teams our or ur server 
+2 - ready to print format
+3 - merged pdf or single pdf or mail merged
+4 - data shading 
+
+
+
+
+    newurl = driver.current_url
+    headers = {
+        "Accept": "*/*",
+        "Accept-Encoding": "g'zip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Length": "3903",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Cookie": "WSS_FullScreenMode=false",
+        "Host": "www.indiapost.gov.in",
+        "Origin": "https://www.indiapost.gov.in",
+        "Referer": "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+        "X-MicrosoftAjax": "Delta=true",
+        "X-Requested-With": "XMLHttpRequest",
+    }
+    r = requests.post(newurl, headers=headers)  
+
+    print(r.content)

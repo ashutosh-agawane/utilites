@@ -293,7 +293,6 @@ def solving_captcha():
                     # WebDriverWait(driver, 20).until(
                     # EC.url_changes(main))
                     sleep_time = [40, 50, 60, 70, 100, 105]
-
                     s = random.choice(sleep_time)
                     try:
                         element_present = EC.presence_of_element_located(

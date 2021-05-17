@@ -115,27 +115,13 @@ def maths_captcha():
                 add = int(get_num[0]) + int(get_num[1])
                 add_text.send_keys(add)
                 btn_click.click()
-                ep = EC.presence_of_element_located(
-                    (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_lblCaptchamessage'))
-                WebDriverWait(driver, 20).until(
-                    ep)
-                if ep:
-                    driver.close()
-                else:
-                    extract_data()
+                extract_data()
 
             elif j in "-":
                 sub = int(get_num[0]) - int(get_num[1])
                 add_text.send_keys(sub)
                 btn_click.click()
-                ep = EC.presence_of_element_located(
-                    (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_lblCaptchamessage'))
-                WebDriverWait(driver, 20).until(
-                    ep)
-                if ep:
-                    driver.close()
-                else:
-                    extract_data()
+                extract_data()
 
 
 def alpha_num_captcha():
@@ -146,14 +132,7 @@ def alpha_num_captcha():
         remve_space = i.replace(" ", "")
         add_text.send_keys(remve_space)
         btn_click.click()
-        ep = EC.presence_of_element_located(
-            (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_ucCaptcha1_lblCaptchamessage'))
-        WebDriverWait(driver, 10).until(
-            ep)
-        if ep:
-            driver.close()
-        else:
-            extract_data()
+        extract_data()
 
 
 def extract_data():
@@ -191,6 +170,7 @@ def extract_data():
     db.test_data.insert_one(my_dist)
     db.test.update_one({"_id": mongo_id}, {
         "$set": {"india_post": "200", "updatedAt": mydate}}, upsert=True)
+
     print("done")
 
 

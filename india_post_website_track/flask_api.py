@@ -47,27 +47,24 @@
 # if __name__ == '__main__':
 #     app.run()
 
-destination = str(input("Enter the Destination : "))
-number_of_item = str(input("Number of Item : "))
+{"awbno": "AN233455",
+ "weight": "0.98",
+ "deliverystatus": "No Service",
+ "deliverydate": "02-May-2021",
+ "returnreason": "",
+ "receivername": "",
+ "relation": "",
+ "receivernumber": "",
+ "referenceno": "",
+ "noservice": "",
+ "physicalcopystatus": "",
+ "barcode": "19022020686201",
+ "deliveryproof": ""
+ }
 
-# li = []
-
-# li.append(destination)
-
-print("your going on holiday to {},and need to pack {} items".format(
-    destination, number_of_item))
-x = list(map(str, input("Enter Items to be packed : ").split()))
-# print("list of items : ", x)
-
-# print("{} it is there in the list".format(i) for i in x)
-
-if not x:
-    print("it is not in the packing list")
-    add = str(input("Add in the list: "))
-    x.append(add)
-for i in x:
-    if i == i:
-        print("{} it is there in the list".format(i))
-    # elif not x:
-    # else:
-    #     print("no one is added")
+img_url = ob.full_Screenshot(
+    driver, save_path=r'.', image_name='sceenshot.png')
+image1 = Image.open(r'sceenshot.png')
+im1 = image1.convert('RGB')
+im1.save(
+    r'E:\python\data\india_post_website_track\screenshots{}.pdf'.format(awbno))
