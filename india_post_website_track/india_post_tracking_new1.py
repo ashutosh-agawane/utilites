@@ -115,6 +115,8 @@ def maths_captcha():
                 add = int(get_num[0]) + int(get_num[1])
                 add_text.send_keys(add)
                 btn_click.click()
+                if
+                driver.refresh()
                 extract_data()
 
             elif j in "-":
@@ -183,24 +185,29 @@ def finding_index_number_captcha():
             first_number = remve_space[0]
             add_text.send_keys(first_number)
             btn_click.click()
+            extract_data()
         elif "Second" in lable:
             second_number = remve_space[1]
             add_text.send_keys(second_number)
             btn_click.click()
+            extract_data()
         elif "Third" in lable:
             third_number = remve_space[2]
             add_text.send_keys(third_number)
             btn_click.click()
+            extract_data()
 
         elif "Fourth" in lable:
             fourth_number = remve_space[3]
             add_text.send_keys(fourth_number)
             btn_click.click()
+            extract_data()
 
         elif "Fifth" in lable:
             fifth_number = remve_space[4]
             add_text.send_keys(fifth_number)
             btn_click.click()
+            extract_data()
 
 
 if __name__ == "__main__":
