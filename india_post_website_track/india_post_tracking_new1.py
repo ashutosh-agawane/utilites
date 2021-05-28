@@ -14,10 +14,14 @@ from pymongo import MongoClient
 from Screenshot import Screenshot_Clipping
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import asyncio
+from concurrent.futures.thread import ThreadPoolExecutor
+import threading
 
 ob = Screenshot_Clipping.Screenshot()
 today = datetime.today()
@@ -29,7 +33,7 @@ url = "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsign
 def initial():
     global search_bar, lable, driver, image, add_text, error_lable, btn_click
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     driver = webdriver.Chrome(
         options=options, executable_path=r'./chromedriver')
@@ -51,10 +55,13 @@ def initial():
 
 
 def import_data():
-    global awbno, db, i, mongo_id
+    global awbno, db, i, mongo_id, client
     client = MongoClient()
     db = client["vikrant"]
-    input_data = db.test.find({"india_post": "100"})
+    count_col = db.new_file.count_documents({"india_post": {"$exists": False}})
+    print(count_col)
+    input_data = db.new_file.find(
+        {"india_post": {"$exists": False}}, no_cursor_timeout=True)
     for i in input_data:
         try:
             mongo_id = i['_id']
@@ -65,28 +72,29 @@ def import_data():
                 maths_captcha()
                 driver.quit()
                 initial()
+
             elif lable == "Enter characters as displayed in image":
                 alpha_num_captcha()
                 driver.quit()
                 initial()
+
             else:
                 finding_index_number_captcha()
                 driver.quit()
                 initial()
-        except Exception as e:
-            print(e)
-            db.test.update_one({"_id": mongo_id}, {
-                "$set": {"india_post": "100", "updatedAt": mydate}}, upsert=True)
-            continue
+
+        except Exception:
+            print("wrong captcha")
+            driver.quit()
+            initial()
 
 
 def image_conversion():
-    # pass
     global result
     for im in image:
         src = im.get_attribute("src")
         if src.endswith("="):
-            print(src)
+            # print(src)
             urllib.request.urlretrieve(src, "captcha_jpg.jpg")
             im1 = Image.open('captcha_jpg.jpg')
             im1.save('cap_png.png')
@@ -105,18 +113,13 @@ def maths_captcha():
     global result
     image_conversion()
     for i in result:
-        # print(i)
         get_num = re.findall('[0-9]+', str(i))
-        # print(get_num)
         find_symbol = re.findall('[+-]', str(i))
-        # print(find_symbol)
         for j in find_symbol:
             if j in "+":
                 add = int(get_num[0]) + int(get_num[1])
                 add_text.send_keys(add)
                 btn_click.click()
-                if
-                driver.refresh()
                 extract_data()
 
             elif j in "-":
@@ -128,7 +131,6 @@ def maths_captcha():
 
 def alpha_num_captcha():
     global result
-    # print(result)
     image_conversion()
     for i in result:
         remve_space = i.replace(" ", "")
@@ -138,42 +140,42 @@ def alpha_num_captcha():
 
 
 def extract_data():
-    sleep_time = [40, 50, 60, 70, 100, 125, 150, 200, 300, 400, 500]
+    begin = time.time()
+    sleep_time = [40, 50, 60, 70, 100]
     s = random.choice(sleep_time)
-    # try:
-    element_present = EC.presence_of_element_located(
-        (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER'))
-    WebDriverWait(driver, s).until(
-        element_present)
-    print(s)
-    ob.full_Screenshot(
-        driver, save_path=r'.', image_name='sceenshot.png')
-    image1 = Image.open(r'sceenshot.png')
-    im1 = image1.convert('RGB')
-    im1.save(
-        r'E:\python\data\india_post_website_track\pdfs\{}.pdf'.format(awbno))
-    loading_page = driver.page_source
-    soup4 = BeautifulSoup(loading_page, 'lxml')
-    table = soup4.find("table", {
-        "id": "ctl00_PlaceHolderMain_ucNewLegacyControl_gvTrckMailArticleEvntOER"})
-    table_rows = table.tbody.find_all("tr")
-    td = [td.text.replace('\n', ' ').strip()
-          for td in table_rows[1].find_all("td")]
+    try:
+        element_present = EC.presence_of_element_located(
+            (By.ID, 'ctl00_PlaceHolderMain_ucNewLegacyControl_lblMailArticleDtlsOER'))
+        WebDriverWait(driver, s).until(
+            element_present)
+    except TimeoutException:
+        driver.quit()
+        initial()
+    finally:
+        loading_page = driver.page_source
+        soup4 = BeautifulSoup(loading_page, 'lxml')
+        table = soup4.find("table", {
+            "id": "ctl00_PlaceHolderMain_ucNewLegacyControl_gvTrckMailArticleEvntOER"})
+        table_rows = table.tbody.find_all("tr")
+        td = [td.text.replace('\n', ' ').strip()
+              for td in table_rows[1].find_all("td")]
 
-    my_dist = {
-        "awbno": awbno,
-        "date": td[0],
-        "time": td[1],
-        "office": td[2],
-        "status": td[3],
-        "created_at": mydate
-    }
+        my_dist = {
+            "awbno": awbno,
+            "date": td[0],
+            "time": td[1],
+            "office": td[2],
+            "status": td[3],
+            "created_at": mydate
+        }
 
-    db.test_data.insert_one(my_dist)
-    db.test.update_one({"_id": mongo_id}, {
-        "$set": {"india_post": "200", "updatedAt": mydate}}, upsert=True)
-
-    print("done")
+        db.new_file_data.insert_one(my_dist)
+        db.new_file.update_one({"_id": mongo_id}, {
+            "$set": {"india_post": "200", "updatedAt": mydate}}, upsert=True)
+        client.close()
+        print("done")
+        end = time.time()
+        print(f"Total runtime of the program is {end - begin}")
 
 
 def finding_index_number_captcha():
@@ -210,9 +212,11 @@ def finding_index_number_captcha():
             extract_data()
 
 
-if __name__ == "__main__":
-    begin = time.time()
-    initial()
-    import_data()
-    end = time.time()
-    print(f"Total runtime of the program is {end - begin}")
+def main():
+    thread1 = threading.Thread(target=initial())
+    thread1.start()
+    thread2 = threading.Thread(target=import_data())
+    thread2.start()
+
+
+main()

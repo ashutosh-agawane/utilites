@@ -736,3 +736,13 @@ if __name__ == "__main__":
 # # actionChains.context_click(image[0]).perform()
 # # actionChains.send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).perform()
 # # actionChains.send_keys(Keys.ENTER).perform()
+
+    # input_data = db.test.find(
+    #     {"india_post": {"$exists": False}}, no_cursor_timeout=True)
+    # input_data = db.test.find({"india_post": "200"}, no_cursor_timeout=True)
+    # ob.full_Screenshot(
+    #     driver, save_path=r'.', image_name='sceenshot.png')
+    # image1 = Image.open(r'sceenshot.png')
+    # im1 = image1.convert('RGB')
+    # im1.save(
+    #     r'E:\python\data\india_post_website_track\pdfs\{}.pdf'.format(awbno))

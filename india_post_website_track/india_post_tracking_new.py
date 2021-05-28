@@ -77,7 +77,8 @@ def import_data():
             print(e)
             db.test.update_one({"_id": mongo_id}, {
                 "$set": {"india_post": "100", "updatedAt": mydate}}, upsert=True)
-            continue
+            driver.quit()
+            initial()
 
 
 def image_conversion():
