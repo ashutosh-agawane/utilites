@@ -7,7 +7,6 @@ import glob
 import os
 import win32api
 import win32print
-
 import time
 root = Tk()
 

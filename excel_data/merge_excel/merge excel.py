@@ -83,6 +83,7 @@ merge_file = tk.Button(text='      Get Date & Merge        ', command=date_wise,
                        bg='green', fg='white', font=('helvetica', 12, 'bold'))
 canvas1.create_window(250, 240, window=merge_file)
 
+
 def merge():
     global filename, count
 
